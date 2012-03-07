@@ -368,38 +368,6 @@ class Group extends CI_Controller {
     redirect("group/$groupId/");
   }
 	
-	function newgroup(){
-		$this->Validate->isLogin();
-		
-		$headerData['title'] = '申请创建小组';
-		$headerData['current'] = 'group';
-		$headerData['styles'] = array('group.css');
-		
-		$this->load->view('header', $headerData);
-		$this->load->view('group/newgroup');
-		$this->Common->groupSidebar();
-		$this->Common->footer();
-	}
-	
-	function newgroup_do(){
-		$this->Validate->isLogin();
-		
-		$this->load->model('MTempGroup');
-		
-		$name = $this->input->post('groupName');
-		$url = $this->input->post('groupUrl');
-		$bio = $this->input->post('bio');
-		$userId = $this->session->userdata('uid');
-		
-		if ($this->MTempGroup->insert($name, $url, $bio, $userId)){
-			$this->session->set_flashdata('error','已经成功提交申请，请等待批准:)');
-		  redirect("group/newgroup/");
-		} else{
-			$this->session->set_flashdata('error','哦，出错了，请重新提交申请');
-		  redirect("group/newgroup/");
-		}
-	}
-	
 	function groupedit($groupUrl){
 		$this->Validate->isLogin();
 		
