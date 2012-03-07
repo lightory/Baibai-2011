@@ -1,0 +1,14 @@
+<?php 
+  foreach($records as $record): 
+    $record->receiver = $this->MUser->getByUid($record->receiverUid);
+    $record->book = $this->MBook->getById($record->bookId);
+?>
+<hr/>
+<p>
+  <a href="<?php echo $this->MUser->getUrl($record->receiverUid); ?>"><?php echo $record->receiver->username; ?></a> 
+  想借 
+  <a href="<?php echo site_url("book/subject/$record->bookId/"); ?>" target="_blank">《<?php echo $record->book->name; ?>》</a>
+  <?php echo mdate('%Y-%m-%d %H:%i', $record->time0); ?>
+</p>
+<p><?php echo $record->message; ?></p>
+<?php endforeach; ?>

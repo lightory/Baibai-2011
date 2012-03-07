@@ -1,0 +1,98 @@
+<html>
+<head>
+<script src="jq.js" type="text/javascript"></script>
+<script>
+var pollInterval = 1000 * 60 * 5; // 5分钟
+var noticeCount = -1;
+var email;
+var password;
+
+function getBaibaiUrl() {
+  var url = "http://bookfor.us/";
+  return url;
+}
+
+function isBaibaiUrl(url) {
+  var baibai = getBaibaiUrl();
+  if (url.indexOf(baibai) != -1)
+    return true;
+  return false;
+}
+	
+function goToBaibai() {
+  chrome.tabs.getAllInWindow(undefined, function(tabs) {
+  /*
+    for (var i = 0, tab; tab = tabs[i]; i++) {
+      if (tab.url && isBaibaiUrl(tab.url)) {
+        chrome.tabs.update(tab.id, {selected: true});
+        return;
+      }
+    }
+   */
+    chrome.tabs.create({url: getBaibaiUrl()});
+  });
+}
+
+function getNoticeCount(){
+	var details = {};
+	
+	details = { "url":"http://bookfor.us", "name":"email" };
+	chrome.cookies.get(details, function(cookie){
+		email = cookie.value;
+	});
+	
+	details = { "url":"http://bookfor.us", "name":"password" };
+	chrome.cookies.get(details, function(cookie){
+		password = cookie.value;
+	});
+
+	$.ajax({
+    	type : "POST",
+    	url : "http://bookfor.us/api/account/getNoticeCount/",
+    	data : "type=chrome&email="+ email +"&password="+ password,
+    	success : function(data) {
+    		if(data != noticeCount){
+    			noticeCount = data;
+    		}
+    		if(noticeCount<0){
+					chrome.browserAction.setIcon({path: "logo16－grey.png"});
+					chrome.browserAction.setBadgeBackgroundColor({color:[190, 190, 190, 230]});
+  				chrome.browserAction.setBadgeText({text:"?"});
+				} else{
+					chrome.browserAction.setIcon({path: "logo16.png"});
+					chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
+					if(noticeCount==0){
+						chrome.browserAction.setBadgeText({text: ""});
+					}else{
+						chrome.browserAction.setBadgeText({text: noticeCount});
+					}
+				}
+    	}
+    });
+}
+
+function updateIcon(){
+	getNoticeCount();
+}
+
+function init(){
+	updateIcon();
+	setInterval("updateIcon()", pollInterval);
+}
+
+// Called when the user clicks on the browser action.
+chrome.browserAction.onClicked.addListener(function(tab) {
+  goToBaibai();
+  updateIcon();
+});
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
+  if (changeInfo.url && isBaibaiUrl(changeInfo.url)) {
+    updateIcon();
+  }
+});
+</script>
+</head>
+<body onload="init();">
+</body>
+</html>

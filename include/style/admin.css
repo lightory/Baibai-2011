@@ -1,0 +1,13 @@
+/*= Table */
+table{
+	border-collapse: collapse;
+	border:1px solid #000;
+} 
+table th,
+table td{
+	font-size:12px;
+	padding:5px 10px;
+	text-align:center;
+	border:1px solid #000;
+	margin:0;
+}

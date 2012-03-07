@@ -1,0 +1,5 @@
+<gupdate xmlns='http://www.google.com/update2/response' protocol='2.0'>
+  <app appid='odklfhaefckpfkhcelpkbfheljfglcgn'>
+    <updatecheck codebase='http://bookfor.us/chrome/baibai.crx' version='0.13' />
+  </app>
+</gupdate>

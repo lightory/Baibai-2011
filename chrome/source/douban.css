@@ -1,0 +1,21 @@
+a.baibai_actionButton{
+	display:inline-block;
+	background: #33A057;
+	border: 1px solid #2F7B4B;
+	color: #FFF;
+	padding: 1px 10px;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	margin-right:8px;
+}
+a.baibai_actionButton:hover,
+.gact a.baibai_actionButton:hover{
+	background: #33A057;
+	border: 1px solid #2F7B4B;
+}
+a.baibai_actionButton.baibai_greyButton,
+a.baibai_actionButton.baibai_greyButton:hover{
+	background:#D4D4D4;
+	border-color:#CACACA;
+}

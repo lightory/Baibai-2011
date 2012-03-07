@@ -1,0 +1,27 @@
+/* e404 */
+.e404{
+	width:585px;
+	height:366px;
+	background:url('img/404_bg.png') no-repeat;
+	margin:40px auto 0;
+	position:relative;
+}
+.e404_content{
+	position:absolute;
+	top:40px;
+	left:320px;
+	width:210px;
+}
+.e404_content p{
+	font-size: 13px;
+	line-height: 20px;
+	margin-bottom: 24px;
+	color:#5D5D5D;
+}
+.e404_content ul{
+	list-style: disc inside;
+}
+.e404_content ul li{
+	font-size:14px;
+	line-height:24px;
+}
