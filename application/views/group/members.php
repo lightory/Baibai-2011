@@ -8,7 +8,6 @@
       <div class="content_box content group">
         <div class="contentBox_tabNav">
           <a href="<?php echo site_url("group/$group->url/"); ?>" class="contentBox_tabNav_tab first">讨论</a><!--
-          --><a href="<?php echo site_url("group/$group->url/books"); ?>" class="contentBox_tabNav_tab">藏书</a><!--
           --><a href="<?php echo site_url("group/$group->url/members/"); ?>" class="contentBox_tabNav_tab current">成员</a>
         </div>
         <div class="group_main">

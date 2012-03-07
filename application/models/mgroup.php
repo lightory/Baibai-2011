@@ -86,34 +86,6 @@ class MGroup extends CI_Model{
     $query = $this->db->get('grouptopic');
     return $query->num_rows();
   }
-
-	// 获取小组最新藏书
-	function getLatestBooks($groupId, $limit=10, $offset=0){
-    $sql[] = "SELECT bf_book.*";
-		$sql[] = "FROM bf_book,bf_groupbook";
-		$sql[] = "WHERE bf_groupbook.groupId = $groupId";
-		$sql[] = "AND bf_groupbook.bookId = bf_book.id";
-		$sql[] = "ORDER BY bf_groupbook.time DESC";
-		$sql[] = "LIMIT $offset, $limit";
-    $sql = implode(' ', $sql);
-    $query = $this->db->query($sql);
-    if ($query->row()){
-      return $query->result();
-    } else {
-      return array();
-    }
-  }
-
-	// 获取小组藏书数量
-	function getBooksCount($groupId){
-    $sql[] = "SELECT bf_book.*";
-		$sql[] = "FROM bf_book,bf_groupbook";
-		$sql[] = "WHERE bf_groupbook.groupId = $groupId";
-		$sql[] = "AND bf_groupbook.bookId = bf_book.id";
-    $sql = implode(' ', $sql);
-    $query = $this->db->query($sql);
-    return $query->num_rows();
-  }
   
   // 获取用户加入的小组
   function getUserJoinedGroups($userId, $limit=8, $offset=0){

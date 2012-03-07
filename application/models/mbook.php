@@ -481,22 +481,6 @@ class MBook extends CI_Model{
 		
 		return $results;
 	}
-
-	// 获取相关小组
-	function getRelatedGroups($bookId, $limit=6){
-		$sql[] = "SELECT bf_group.* FROM bf_group,bf_groupbook";
-		$sql[] = "WHERE bf_groupbook.bookId = $bookId";
-		$sql[] = "AND bf_groupbook.groupId = bf_group.id";
-		$sql[] = "ORDER BY RAND()";
-		$sql[] = "LIMIT 0, $limit";
-		$sql = implode(' ', $sql);
-		$query = $this->db->query($sql);
-		if ($query->row()){
-			return $query->result();
-		} else {
-			return array();
-		}
-	}
 	
 	function getSwitchBooksByDonate($bookId, $limit=10){
 		$sql[] = "SELECT DISTINCT bf_book.* FROM bf_book, bf_stock, bf_borrowrequest";

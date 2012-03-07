@@ -142,18 +142,12 @@ class Group extends CI_Controller {
     
     // Load Latest Topics
     $topics = $this->MGroup->getLatestTopics($group->id, 15, $offset);
-
-		// Load Latest Books
-		$books = $this->MGroup->getLatestBooks($group->id, 10);
-		$booksCount = $this->MGroup->getBooksCount($group->id);
     
     $headerData['title'] = $group->name.' - 小组';
     $headerData['current'] = 'group';
 		$headerData['styles'] = array('group.css');
     $data['group'] = $group;
     $data['topics'] = $topics;
-		$data['books'] = $books;
-		$data['booksCount'] = $booksCount;
     
     // Setup Pagniation
     $this->load->library('pagination');
@@ -373,141 +367,18 @@ class Group extends CI_Controller {
     // Redirect
     redirect("group/$groupId/");
   }
-
-	function books($groupUrl, $offset=0){
-		$this->Validate->isLogin();
-    
-    $this->load->model('MGroup');
-    $this->load->model('MGroupBook');
-    $this->load->helper('string');
-    
-    // Load Current Group
-    $group = $this->MGroup->getByUrl($groupUrl);
-    $group->userType = $this->MGroup->getUserType($this->session->userdata('uid'), $group->id);
-
-		// Load Latest Books
-		$books = $this->MGroup->getLatestBooks($group->id, 15, $offset);
-		$booksCount = $this->MGroup->getBooksCount($group->id);
-    
-    $headerData['title'] = $group->name.'小组藏书';
-    $headerData['current'] = 'group';
-		$headerData['styles'] = array('group.css');
-    $data['group'] = $group;
-		$data['books'] = $books;
-    
-    // Setup Pagniation
-    $this->load->library('pagination');
-    $config['full_tag_open'] = '<p class="pages">';
-    $config['full_tag_close'] = '</p>';
-    $config['uri_segment'] = 3;
-    $config['per_page'] = '15'; 
-    $config['total_rows'] = $booksCount;
-    $config['num_links'] = 5;
-    $config['base_url'] = site_url("group/$groupUrl/books");
-    $this->pagination->initialize($config); 
-    
-    $this->load->view('header', $headerData);
-    $this->load->view('group/booklist', $data);
-    $this->Common->groupSidebar();
-    $this->Common->footer();
-	}
-  
-  function addbook($bookId){
-		$this->output->enable_profiler(FALSE);
-	
-    $this->Validate->isLogin('fancybox');
-    
-    $this->load->model('MGroup');
-    $this->load->model('MBook');
-    
-    $data['groups'] = $this->MGroup->getUserJoinedGroups($this->session->userdata('uid'), 30);
-    $data['book'] = $this->MBook->getById($bookId);
-    
-    $this->load->view('group/addbook', $data);
-  }
-
-	function addbook_do(){
-		$this->Validate->isLogin('fancybox');
-		
-		$this->load->model('MGroupBook');
-		$this->load->model('MGroup');
-		
-		$userId = $this->session->userdata('uid');
-		$bookId = $this->input->post('bookId');
-		$groupId = $this->input->post('groupId');
-		
-		if (!$groupId){
-			$this->session->set_flashdata('title', 'OOPS...很抱歉');
-	    $this->session->set_flashdata('message','请先选择一个小组');
-	    redirect("alert/failure");
-		}
-		
-		if ($this->MGroupBook->addBook($groupId, $bookId, $userId)){
-			$this->session->set_flashdata('title', 'WOW!!');
-	    $this->session->set_flashdata('message','恭喜您，已经成功将这本书收藏到小组:)');
-	    redirect("alert/success");
-		} else{
-			$this->session->set_flashdata('title', 'OOPS...很抱歉');
-	    $this->session->set_flashdata('message','该小组已经收藏此书，不需要再重复添加:)');
-	    redirect("alert/failure");
-		}
-	}
-	
-	function removebook($groupId, $bookId){
-		$this->output->enable_profiler(FALSE);
-		
-    $this->Validate->isLogin('fancybox');
-    
-    $this->load->model('MGroup');
-    $this->load->model('MBook');
-    
-    $data['group'] = $this->MGroup->getById($groupId);
-    $data['book'] = $this->MBook->getById($bookId);
-    
-    $this->load->view('group/removebook', $data);
-  }
-
-	function removebook_do(){
-		$this->Validate->isLogin('fancybox');
-		
-		$this->load->model('MGroupBook');
-		$this->load->model('MGroup');
-		
-		$userId = $this->session->userdata('uid');
-		$bookId = $this->input->post('bookId');
-		$groupId = $this->input->post('groupId');
-		
-		if ((!$groupId) || (!$bookId)){
-			$this->session->set_flashdata('title', 'OOPS...很抱歉');
-	    $this->session->set_flashdata('message', '出错了，请重试一次。');
-	    redirect("alert/failure");
-		}
-		
-		$userType = $this->MGroup->getUserType($this->session->userdata('uid'), $groupId);
-		$isMyColletion = $this->MGroupBook->isMyColletion($groupId, $bookId, $userId);
-		if(($userType!='owner') && (!$isMyColletion)){
-			$this->session->set_flashdata('title', 'OOPS...很抱歉');
-	    $this->session->set_flashdata('message', '对不起，您没有权限执行此项操作。');
-	    redirect("alert/failure");
-		}
-		
-		$this->MGroupBook->removeBook($groupId, $bookId);
-		$this->session->set_flashdata('title', 'WOW!!');
-	  $this->session->set_flashdata('message','恭喜您，已经从小组收藏中删除此书。');
-	  redirect("alert/success");
-	}
 	
 	function newgroup(){
 		$this->Validate->isLogin();
 		
 		$headerData['title'] = '申请创建小组';
-    $headerData['current'] = 'group';
+		$headerData['current'] = 'group';
 		$headerData['styles'] = array('group.css');
 		
 		$this->load->view('header', $headerData);
-    $this->load->view('group/newgroup');
-    $this->Common->groupSidebar();
-    $this->Common->footer();
+		$this->load->view('group/newgroup');
+		$this->Common->groupSidebar();
+		$this->Common->footer();
 	}
 	
 	function newgroup_do(){

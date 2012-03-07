@@ -8,15 +8,13 @@
 		<div class="content">
       	<div class="content_box group">
 	        <div class="contentBox_tabNav">
-	          <a href="<?php echo site_url("group/$group->url/"); ?>" class="contentBox_tabNav_tab current first">讨论</a><!--
-	          --><?php if($group->type!='location'): ?><a href="<?php echo site_url("group/$group->url/books/"); ?>" class="contentBox_tabNav_tab">藏书</a><?php endif; ?>
+	          <a href="<?php echo site_url("group/$group->url/"); ?>" class="contentBox_tabNav_tab current first">讨论</a>
 	        </div>
 	        <div class="group_main">
 	          <img src="<?php echo getGroupIcon($group); ?>" class="avatar avatar-42 group_main_icon" />
 	          <h2 class="group_main_title"><?php echo $group->name; ?></h2>
 	          <p class="group_main_nav">
 	            <a class="current" href="<?php echo site_url("group/$group->url/"); ?>">讨论</a> | 
-	            <?php if($group->type!='location'): ?><a href="<?php echo site_url("group/$group->url/books/"); ?>"><?php echo $booksCount; ?>本藏书</a> | <?php endif; ?>
 							<a href="<?php echo site_url("group/$group->url/members/"); ?>"><?php echo $group->memberCount; ?>名成员</a>
 							<?php if($group->userType=='owner'): ?>
 	             | <a href="<?php echo site_url("group/$group->url/edit/"); ?>">修改小组设置</a>
