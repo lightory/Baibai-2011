@@ -17,8 +17,6 @@ class Account extends CI_Controller {
     	$type = $this->input->post('type');
     	
 		if($user = $this->MUser->loginValid($email, $password)){
-			$this->MAppSession->newSession($user->uid, $type);
-		
 			$num1 = $this->MBorrowRecord->getToDoCount($user->uid);
 			$num2 = $this->MNotification->getCountByReceiver($user->uid);
 			echo $num1+$num2;
