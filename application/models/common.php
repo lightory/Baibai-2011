@@ -82,11 +82,6 @@ class Common extends CI_Model{
 		$CI->load->model('MGroup');
 		$CI->load->helper('gravatar');
     
-		// Load User's Group
-		$joinedGroups = $CI->MGroup->getUserJoinedGroups($this->session->userdata('uid'));
-    
-		$data['joinedGroups'] = $joinedGroups;
-    
-		$CI->load->view('group/sidebar', $data);
+		$CI->load->view('group/sidebar');
 	}
 }

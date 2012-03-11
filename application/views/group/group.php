@@ -13,22 +13,9 @@
 	        <div class="group_main">
 	          <img src="<?php echo getGroupIcon($group); ?>" class="avatar avatar-42 group_main_icon" />
 	          <h2 class="group_main_title"><?php echo $group->name; ?></h2>
-	          <p class="group_main_nav">
-	            <a class="current" href="<?php echo site_url("group/$group->url/"); ?>">讨论</a> | 
-							<a href="<?php echo site_url("group/$group->url/members/"); ?>"><?php echo $group->memberCount; ?>名成员</a>
-							<?php if($group->userType=='owner'): ?>
-	             | <a href="<?php echo site_url("group/$group->url/edit/"); ?>">修改小组设置</a>
-	            <?php endif; ?>
-	            <?php if($group->id!=1 && $group->userType=='member'): ?>
-	             | <a href="<?php echo site_url("group/$group->id/quit_do/"); ?>">退出小组</a>
-	            <?php endif; ?>
-	          </p>
-	          <?php if($group->id!=1 && $group->userType==''): ?>
-	          <a href="<?php echo site_url("group/$group->id/join_do/"); ?>" class="button group_main_bigButton">加入小组</a>
-	          <?php else: ?>
+	          <p class="group_main_nav"></p>
 	          <a href="<?php echo site_url("group/$group->id/newtopic/"); ?>" class="button group_main_bigButton">发表新主题</a>
-	          <?php endif; ?>
-						<p class="group_main_desc"><?php echo nl2br($group->desc); ?></p>
+			<p class="group_main_desc"><?php echo nl2br($group->desc); ?></p>
 	          <table class="group_main_topics clearfix">
 	            <tr class="group_main_topics_th">
 	              <th style="width:340px;">主题</th>

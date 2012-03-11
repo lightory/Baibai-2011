@@ -35,10 +35,6 @@ class Location extends CI_Controller {
 		$data['lastestAvailableBooks'] = $this->MLocationBook->getAvailableBooksByCity($cityName, 'desc', '20', $offset);
 		$data['users'] = $this->MUser->getDonateListByCity($cityName);
 		
-		// get group topics
-		$group = $this->MGroup->getByUrl($location->url);
-		$data['topics'] = $this->MGroup->getLatestTopics($group->id, 6);
-		
 		// slideBooks
 		$slideBooks['title'] = '随机推荐';
 		$slideBooks['books'] = $this->MLocationBook->getAvailableBooksByCity($cityName, 'rand', '20');

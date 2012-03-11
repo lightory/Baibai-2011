@@ -25,7 +25,7 @@
 				<li class="home"><a href="<?php echo site_url('mine/'); ?>">我的</a></li>
 				<li class="lib"><a href="<?php echo site_url('book/'); ?>">书架</a></li>
 				<?php if($this->session->userdata('uid')): ?>
-				<li class="group"><a href="<?php echo site_url('group/baibai/'); ?>">小组</a></li>
+				<li class="group"><a href="<?php echo site_url('group/'); ?>">小组</a></li>
 				<?php endif; ?>
 			</ul>
 			

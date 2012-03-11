@@ -3,7 +3,7 @@
 			<div class="breadcrumbs">
 				<a href="<?php echo site_url("group/"); ?>">小组</a>
 				<span style="font-size:12px;">&gt;</span>
-				<a href="<?php echo site_url("group/$group->url/"); ?>"><?php echo $group->name; ?></a>
+				<?php echo $topic->title; ?>
 			</div>
       <div class="content_box content groupTopic">
         <div class="groupTopic_main">

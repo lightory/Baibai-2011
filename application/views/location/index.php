@@ -1,6 +1,10 @@
 	<div id="body">
 		<div class="inner">
 			<div class="content">
+				<div class="lib_contentModule book_list3 content_box">
+		        		<?php $this->load->view("book/components/slide_books.php", $slideBooks); ?>
+		      	</div>
+				
 				<div class="content_box">
 			  	<div class="contentBox_tabNav">
 			  		<a href="<?php echo site_url('book/'); ?>" class="contentBox_tabNav_tab first">全站书架</a><!--
@@ -24,34 +28,6 @@
 						<?php echo $this->pagination->create_links(); ?>
         	</div>
 				</div>
-				<div class="content_box">
-					<table class="group_main_topics clearfix" style="border:none; margin-top:0; padding:0 15px 10px;">
-            <tr class="group_main_topics_th">
-              <th style="width:340px;">主题</th>
-              <th style="widhth:90px; text-align:center;">作者</th>
-              <th style="width:60px; text-align:center;">回复</th>
-              <th style="text-align:center;">更新</th>
-            </tr>
-            <?php foreach($topics as $topic): ?>
-            <?php $topic->author = $this->MUser->getByUid($topic->userId); ?>
-            <?php $topic->replysCount = $this->MGroupTopic->getTopicReplysCount($topic->id); ?>
-            <tr>
-              <td><a href="<?php echo site_url("group/topic/$topic->id/"); ?>" title="<?php echo $topic->title; ?>"><?php echo utf_substr($topic->title,56); ?></a></td>
-              <td style="text-align:center;"><a href="<?php echo $this->MUser->getUrl($topic->author->uid); ?>"><?php echo $topic->author->nickname; ?></a></td>
-              <td style="text-align:center;"><?php echo $topic->replysCount; ?></td>
-              <td style="text-align:center;"><?php echo toRelativeTime($topic->activeTime); ?></td>
-            </tr>
-            <?php endforeach; ?>
-						<tr>
-							<td colspan="4">
-								<a href="<?php echo site_url("group/{$location->url}/"); ?>">查看更多...</a>
-							</td>
-						</tr>
-          </table>
-				</div>
-				<div class="lib_contentModule book_list3 content_box">
-        		<?php $this->load->view("book/components/slide_books.php", $slideBooks); ?>
-      	</div>
 			</div>
 			<div class="sidebar">
 				<div class="content_box user_list">

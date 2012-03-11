@@ -233,7 +233,6 @@ class Book extends CI_Controller {
       		$data['myTags'] = $this->MTag->getTagOfUser($this->session->userdata('uid'));
     	}
     	$data['relatedBooks'] = $this->MBook->getRelatedBooks($id);
-		$data['relatedGroups'] = $this->MBook->getRelatedGroups($id);
 		
 		$this->load->view('header', $headerData);
 		$this->load->view('book/subject', $data);

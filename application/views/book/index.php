@@ -1,6 +1,9 @@
 <div id="body">
 	<div class="inner">
 		<div class="content">
+			<div class="lib_contentModule book_list3 content_box">
+				<?php $this->load->view("book/components/slide_books.php", $slideBooks); ?>
+			</div>
 			<div class="content_box">
 				<div class="contentBox_tabNav">
 					<a href="<?php echo site_url('book/all/'); ?>" class="contentBox_tabNav_tab current first">全站书架</a><!--
@@ -43,9 +46,6 @@
 						<?php echo $this->pagination->create_links(); ?>
 					</div>
 				</div>
-			</div>
-			<div class="lib_contentModule book_list3 content_box">
-				<?php $this->load->view("book/components/slide_books.php", $slideBooks); ?>
 			</div>
 		</div><!--End Of Content -->
 		<div class="sidebar">
