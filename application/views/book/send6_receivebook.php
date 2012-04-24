@@ -52,7 +52,7 @@
 			<span style="position:absolute; left:20px; top:16px; color:#929292;">
 				同步到
 				<?php if(in_array('douban',$myLinkedProviders)): ?>
-				<input type="checkbox" name="douban" id="tsina" value="1" checked style="margin:0 2px 0 6px;">豆瓣
+				<input type="checkbox" name="douban" id="douban" value="1" checked style="margin:0 2px 0 6px;">豆瓣
 				<?php endif; ?>
 				<?php if(in_array('tsina',$myLinkedProviders)): ?>
 				<input type="checkbox" name="tsina" id="tsina" value="1" checked style="margin:0 2px 0 6px;">新浪微博

@@ -25,7 +25,7 @@
 </div>
 
 <script type="text/javascript">
-var prompt = '请输入书籍的ISBN号码';
+var prompt = '请输入书籍的 ISBN 号码';
 $('form input#isbn').val(prompt);
 $('form input#isbn').focus(function(){
   if ( $(this).val() == prompt ){
