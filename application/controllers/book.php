@@ -313,7 +313,7 @@ class Book extends CI_Controller {
 		
 		# 如果未登录，STOP
 		$this->Validate->isLogin('fancybox');
-	
+
 		if ('step1' == $isbn){ // Step 1
 			$this->load->view('book/donate');
 		}else{ // Step 2
@@ -569,7 +569,7 @@ class Book extends CI_Controller {
 	}
 	
 	// DOs
-	function getisbn_do($type='donate'){
+	function getisbn_do0($type='donate'){
 		$this->load->model('MBook');
 		$this->load->model('MTag');
 		$isbn = str_replace(' ', '', $this->input->post('isbn'));
@@ -582,6 +582,10 @@ class Book extends CI_Controller {
 				$this->session->set_flashdata('title', 'OOPS...很抱歉');
 				$this->session->set_flashdata('message', "对不起，没有查询到这本书的数据。建议您核对ISBN号是否输入有误。");
 				redirect("alert/failure");
+			} elseif(is_array($book)){
+				$this->session->set_flashdata('title', 'OOPS...很抱歉');
+				$this->session->set_flashdata('message', "对不起，没有查询到这本书的数据。建议您核对ISBN号是否输入有误。");
+
 			}
 			if (!$this->MBook->getByIsbn($book->isbn)) {
 			   $bookId = $this->MBook->insert($book);
@@ -609,6 +613,99 @@ class Book extends CI_Controller {
 			$this->session->set_flashdata('redirectUrl', site_url("book/subject/{$book->id}/")."#borrow");
 			redirect("borrow/redirect");
 		}
+	}
+
+	function getisbn_do($type='donate'){
+		$this->load->model('MBook');
+		$this->load->model('MTag');
+		$isbn = str_replace(' ', '', $this->input->get('isbn'));
+		if(preg_match('/^[0-9]{10}$/',$isbn) || preg_match('/^[0-9]{13}$/',$isbn)){ //用户输入的是isbn
+			# 如果数据库中无此书，从豆瓣读取
+			if (!$this->MBook->getByIsbn($isbn)){
+				$this->load->helper('douban');
+				$book = getBookDetail($isbn);
+				if($book==false){
+					$this->session->set_flashdata('title', 'OOPS...很抱歉');
+					$this->session->set_flashdata('message', "对不起，没有查询到这本书的数据。建议您核对ISBN号是否输入有误。");
+					redirect("alert/failure");
+				} elseif(is_array($book)){
+					$this->session->set_flashdata('title', 'OOPS...很抱歉');
+					$this->session->set_flashdata('message', "对不起，没有查询到这本书的数据。建议您核对ISBN号是否输入有误。");
+
+				}
+				if (!$this->MBook->getByIsbn($book->isbn)) {
+					$bookId = $this->MBook->insert($book);
+
+					// add Tags
+					foreach($book->tags as $tag){
+						$this->MTag->insert(0, $bookId, $tag);
+					}
+
+					// save Image
+					if (!strpos($book->pic, 'default')) {
+						$picFid = mdate('%Y%m', time());
+						$picId = $bookId;
+						$this->MBook->updateCover($bookId, $picFid, $picId);
+					}
+				}
+				$isbn = $book->isbn;
+			}
+			if ($type == 'donate') {
+				redirect("book/donate/{$isbn}/");
+			} elseif ($type == 'borrow') {
+				$book = $this->MBook->getByIsbn($isbn);
+				//redirect("book/iwantborrow/{$book->id}/");
+				$this->session->set_flashdata('redirectUrl', site_url("book/subject/{$book->id}/")."#borrow");
+				redirect("borrow/redirect");
+			}
+		} else{ //用户输入的不是isbn，则直接搜索豆瓣
+			$this->load->helper('douban');
+			$books = searchFromDouban($isbn);
+			$newbooks = array();
+			if(count($books) == 0){
+				$this->session->set_flashdata('title', 'OOPS...很抱歉');
+				$this->session->set_flashdata('message', "对不起，没有查询到这本书的数据。建议您填写书籍全名，或者输入ISBN号。");
+				redirect("alert/failure");
+			} else { //TODO：如果搜索结果只有一本则同isbn，不要让用户再选
+				foreach($books as $book){
+					$existsBook = $this->MBook->getByIsbn($book->isbn);
+					if (!$existsBook) {
+						$bookId = $this->MBook->insert($book);
+						$newbook = clone $book;
+						$newbook->id = $bookId;
+						// add Tags
+						foreach($book->tags as $tag){
+							$this->MTag->insert(0, $bookId, $tag);
+						}
+
+						// save Image
+						if (!strpos($book->pic, 'default')) {
+							$picFid = mdate('%Y%m', time());
+							$picId = $bookId;
+							$this->MBook->updateCover($bookId, $picFid, $picId);
+						}
+						$newbooks[] = $newbook;
+					} else{
+						$newbooks[] = $existsBook;
+					}
+				}
+			}
+
+			if ($type == 'donate') {
+				$data = array();
+				$data['books'] = $newbooks;
+				$data['message'] = "请选择您要捐的书籍：";
+				$this->load->view('book/choose', $data);
+			} elseif ($type == 'borrow') {
+				$data['books'] = $newbooks;
+				$data['message'] = "请选择您要借的书籍：";
+				$this->load->view('book/choose', $data);
+			}
+		}
+	}
+
+	function donate_choose(){
+
 	}
 
 	function choosereceiver_do($requestId){
