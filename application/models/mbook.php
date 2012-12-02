@@ -12,6 +12,7 @@ class MBook extends CI_Model{
 	var $pubdate = '';
 	var $price = '';
 	var $time ='';
+	var $tags = array();
 	
 	function __construct(){
         parent::__construct();

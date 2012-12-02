@@ -15,7 +15,7 @@
 	</div>
 	<div class="newFancy_middle donateBox_middle">
 		<form method="post" action="<?php echo site_url("book/getisbn_do/"); ?>" class="donateStep1_form">
-			<input type="text" name="isbn" class="donateStep1_form_isbn newFancy_input" id="isbn" />
+			<input type="text" name="isbn" class="donateStep1_form_isbn newFancy_input" id="isbn"/>
 			<input type="submit" value="下一步 >" class="donateStep1_form_nextButton" />
 			<p class="error" style="position:absolute; bottom:3px; left:240px; display:none;">请输入正确的ISBN</p>
 		</form>
@@ -25,8 +25,9 @@
 </div>
 
 <script type="text/javascript">
-var prompt = '请输入书籍的 ISBN 号码';
+var prompt = '请输入书籍的 ISBN 号码或者书名';
 $('form input#isbn').val(prompt);
+
 $('form input#isbn').focus(function(){
   if ( $(this).val() == prompt ){
     $(this).val('');
@@ -40,16 +41,12 @@ $('form input#isbn').blur(function(){
 
 $("form").bind("submit", function() {
 	var isbn = $('#isbn').val().replace(/[ ]/g,"");
-	if ( (isbn.match(/\D/)!=null) || ((isbn.length!=13) && (isbn.length!=10)) ){
-		$('p.error', this).show();
-		return false;
-	}
-	
+
 	$.fancybox.showActivity();
 	
 	$.ajax({
-		type		: "POST",
-		url		: "<?php echo site_url("book/getisbn_do/"); ?>",
+		type		: "GET",
+		url		    : "<?php echo site_url("book/getisbn_do/"); ?>",
 		data		: $(this).serializeArray(),
 		success: function(data) {
 			$.fancybox(data);
