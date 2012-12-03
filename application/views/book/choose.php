@@ -58,21 +58,9 @@
 
 		return false;
 	});
-/*
-	$(".choose").bind("click", function(){
-		var href = $("#next").attr("href");
-		$("#next").attr("href",href+"/"+$(this).attr("value"));
-		alert($("#next").attr("href"));
-	});
-*/
+
 	$("#next").bind("click", function() {
 		var href = $(this).attr('href');
-		var choosed = $(".choose:checked").attr("value");
-		if(!choosed) {
-			alert("全选择一本书");
-			return false;
-		}
-		href += choosed;
 		$(this).attr("href", 'javascript:void();');
 
 		$.fancybox.showActivity();
