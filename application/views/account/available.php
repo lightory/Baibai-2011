@@ -83,7 +83,7 @@
 					               <a href="<?php echo site_url("book/messages/all/$book->id/"); ?>" class="book_more" statue="0">查看详细<img src="<?php echo site_url('include/style/img/').'books_list_more.png'; ?>" /></a>
 					               <?php endif; ?>
 					               <?php else: ?>
-					               <a href="<?php echo site_url("book/iwantborrow/$book->id/"); ?>" onclick="return false;" class="button fancybox book_finish">我想借</a>
+					               <a href="<?php echo site_url("borrow/request/$book->id/"); ?>" class="button book_finish">我想借</a>
 					               <?php endif; ?>
 					          </li>
 					          <?php endforeach; ?>

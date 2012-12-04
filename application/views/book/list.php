@@ -27,7 +27,7 @@
 								</p>
 							</div>
 							<p class="buttons">
-								<a href="<?php echo site_url("book/iwantborrow/$book->id/"); ?>" onclick="return false;"  class="iwantborrow fancybox button2">想借</a>
+								<a href="<?php echo site_url("borrow/request/$book->id/"); ?>" class="iwantborrow button2">想借</a>
 							</p>
 						</li>
 						<?php endforeach; ?>
