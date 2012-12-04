@@ -14,6 +14,7 @@ class Sms {
 			return;
 		}
 		
+		$msg .= '【摆摆书架】';
 		$msg = mb_convert_encoding($msg, 'gb2312', 'utf-8');
 		$msg = urlencode($msg);
 		$sendUrl =  "http://jiekou.ruan56.com/sms/HttpInterface.aspx?comid={$this->comId}&username={$this->username}&userpwd={$this->password}&handtel={$mobile}&sendcontent={$msg}&smsnumber={$this->smsNumber}";
